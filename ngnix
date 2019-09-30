@@ -3,7 +3,7 @@
 - name: Compile NGINX from sources
   hosts: webserver
   vars:
-    nginx_version: nginx-1.13.4
+    nginx_version: nginx-1.17.0
     nginx_tarball_url: "http://nginx.org/download/{{ nginx_version }}.tar.gz"
     nginx_install_dir: "/tmp/{{ nginx_version }}"
     nginx_sbin_path: "/usr/sbin/nginx"
