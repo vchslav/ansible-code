@@ -1,7 +1,6 @@
 server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-
+        listen 8080 default_server;
+        
         root /var/www/demo; 
         
         index index.html
@@ -9,5 +8,11 @@ server {
         server_name _;
         location / {
                 try_files $uri $uri/ =404;
+                error_page 404 = @redirect;
+        }
+        location @redirect {
+                internal;
+                return 301 https://www.google.com/;
+                expires 1d;
         }
 }
