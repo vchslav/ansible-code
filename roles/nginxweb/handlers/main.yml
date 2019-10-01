@@ -1,2 +1,3 @@
 ---
-# handlers file for nginxweb
+- name: restart nginx
+  service: name=nginx state=restarted
