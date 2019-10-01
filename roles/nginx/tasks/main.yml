@@ -7,24 +7,16 @@
 - name: install nginx
   apt: name=nginx state=present update_cache=yes
 
-- name: configure nginx sites
-  template: src=nginx.conf.j2 dest=/etc/nginx/sites-available/{{ item.key }} mode=0644
-  with_dict: sites
+- name: configure nginx site
+  template: src=nginx.conf.j2 dest=/etc/nginx/sites-available/demo mode=0644
   notify: restart nginx
 
-- name: get active sites
-  shell: ls -1 /etc/nginx/sites-enabled
-  register: active
-
-- name: de-activate sites
-  file: path=/etc/nginx/sites-enabled/{{ item }} state=absent
-  with_items: active.stdout_lines
-  when: item not in sites
+- name: de-activate default nginx site
+  file: path=/etc/nginx/sites-enabled/default state=absent
   notify: restart nginx
 
-- name: activate nginx sites
-  file: src=/etc/nginx/sites-available/{{ item.key }} dest=/etc/nginx/sites-enabled/{{ item.key }} state=link
-  with_dict: sites
+- name: activate demo nginx site
+  file: src=/etc/nginx/sites-available/demo dest=/etc/nginx/sites-enabled/demo state=link
   notify: restart nginx
 
 - name: ensure nginx started
