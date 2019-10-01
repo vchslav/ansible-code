@@ -9,6 +9,7 @@
     nginx_sbin_path: "/usr/sbin/nginx"
     nginx_conf_path: "/etc/nginx/nginx.conf"
     nginx_custom_modules: "--with-http_auth_request_module"
+    ansible_user: "vagrant"
 
   tasks:
   - name: Installing NGINX Dependencies
