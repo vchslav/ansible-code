@@ -1,0 +1,5 @@
+---
+- hosts: lb01
+  become: true
+  roles:
+    - haproxy
