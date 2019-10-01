@@ -1,7 +1,7 @@
 ---
 
 - name: Compile NGINX from sources
-  hosts: webserver
+  hosts: app01
   vars:
     nginx_version: nginx-1.17.0
     nginx_tarball_url: "http://nginx.org/download/{{ nginx_version }}.tar.gz"
@@ -23,6 +23,7 @@
       - libpcre3
       - libpcre3-dev
       - unzip
+      - build-essential
 
   - name: Downloading NGINX sources
     get_url:
