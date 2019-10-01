@@ -4,3 +4,8 @@
 
   - name: install haproxy
     apt: name=haproxy state=present
+
+  - name: Enable init script
+    replace: dest='/etc/default/haproxy' 
+    regexp: 'ENABLED=0'
+    replace: 'ENABLED=1'
