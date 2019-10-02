@@ -34,7 +34,7 @@ EOF
   end
 
   config.vm.define "lb01" do |h|
-    h.vm.network "private_network", ip: "192.168.0.101"
+    h.vm.network "private_network", ip: "192.168.0.100"
   end
 
   config.vm.define "app01" do |h|
