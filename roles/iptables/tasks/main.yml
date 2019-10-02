@@ -17,8 +17,3 @@
     jump: ACCEPT
   with_items:
     - "{{ ports }}"
-
-- name: Set the policy for the INPUT chain to DROP
-  iptables:
-    chain: INPUT
-    policy: DROP
