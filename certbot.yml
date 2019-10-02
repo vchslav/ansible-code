@@ -2,4 +2,4 @@
 - hosts: loadbalancer
   become: true
   roles:
-    - haproxy
+    - certbot
