@@ -12,7 +12,7 @@
 - name: open_ports
   iptables:
     chain: INPUT
-    destination_port: {{ item }}
+    destination_port: "{{ item }}"
     protocol: tcp
     jump: ACCEPT
   with_items:
