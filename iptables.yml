@@ -1,5 +1,5 @@
 ---
-- hosts: "*"
+- hosts: \!control
   become: true
   roles:
     - iptables
