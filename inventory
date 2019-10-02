@@ -1,9 +1,0 @@
-[loadbalancer]
-lb01
-
-[webserver]
-app01
-app02
-
-[controler]
-control ansible_connection=local
