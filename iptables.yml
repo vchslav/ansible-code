@@ -1,5 +1,5 @@
 ---
-- hosts: iptables
+- hosts: "*"
   become: true
   roles:
-    - nginxweb
+    - iptables
