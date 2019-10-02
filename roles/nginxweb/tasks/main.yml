@@ -21,3 +21,7 @@
 
 - name: ensure nginx started
   service: name=nginx state=started enabled=yes
+
+- name: copy test page source
+  copy: src=demo/app/ dest=/var/www/demo mode=0755
+  notify: restart apache2
