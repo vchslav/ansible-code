@@ -20,7 +20,7 @@
   notify: restart nginx
 
 - name: copy demo app source
-  copy: src=test.html dest=/var/www/demo mode=0755
+  copy: src=demo/ dest=/var/www/demo mode=0755
   notify: restart nginx
 
 - name: ensure nginx started
