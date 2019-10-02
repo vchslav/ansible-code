@@ -1,2 +1,2 @@
 ---
-# vars file for iptables
+ports: [8080, 22]
