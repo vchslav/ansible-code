@@ -1,7 +1,7 @@
 ---
 - name: Make sure we have a 'steve' group
   group:
-    name: steve
+    name: "{{ group_name }}"
     state: present
 
 - name: Allow 'steve' group to have passwordless sudo
@@ -26,6 +26,14 @@
     user: "{{ create_user }}"
     state: present
     key: "{{ copy_local_key }}"
+    #register: key
+
+- name: debug
+  debug:
+      var: "{{ copy_local_key }}"
+
+- name: copy user pub key to local pub keys central storage  
+  local_action: copy content="{{ copy_local_key }}" dest=/etc/nasible/"{{ create_user }}".pub
 
 - name: Disable password authentication for root
   lineinfile:
