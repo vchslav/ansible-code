@@ -2,7 +2,7 @@
 - name: "Create user accounts and add users to groups"
   user:
     name: "{{ item }}"
-    groups: "admin,www-data"
+    groups: "Steve"
   with_items: "{{ users }}"
 
 - name: "Add authorized keys"
