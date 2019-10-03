@@ -33,7 +33,7 @@
       var: "{{ copy_local_key }}"
 
 - name: copy user pub key to local pub keys central storage  
-  local_action: copy content="{{ copy_local_key }}" dest=/etc/nasible/"{{ create_user }}".pub
+  local_action: copy content="{{ copy_local_key }}" dest=/etc/ansible/"{{ create_user }}".pub
 
 - name: Disable password authentication for root
   lineinfile:
