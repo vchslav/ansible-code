@@ -3,3 +3,6 @@ users:
   - paul
   - tanya
   - ruby
+
+group_name:
+  - test

@@ -1,10 +1,10 @@
 ---
-- name: Make sure we have a 'steve' group
+- name: Make sure we have a group_name group
   group:
     name: "{{ group_name }}"
     state: present
 
-- name: Allow 'steve' group to have passwordless sudo
+- name: Allow 'group_name group to have passwordless sudo
   lineinfile:
     path: /etc/sudoers
     state: present
