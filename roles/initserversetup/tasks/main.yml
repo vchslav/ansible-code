@@ -1,0 +1,61 @@
+---
+- name: Make sure we have a 'steve' group
+  group:
+    name: "{{ group_name }}"
+    state: present
+
+- name: Allow 'steve' group to have passwordless sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    #regexp: "^%steve"
+    regexp: "^%{{ group_name }}"
+    line: "%{{ group_name }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: Create a new regular user with sudo privileges
+  user:
+    name: "{{ create_user }}"
+    state: present
+    #groups: steve
+    groups: "{{ group_name }}"
+    append: true
+    create_home: true
+    shell: /bin/bash
+
+- name: Set authorized key for remote user
+  authorized_key:
+    user: "{{ create_user }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+    #register: key
+
+# - name: debug
+#   debug:
+#       var: "{{ copy_local_key }}"
+
+# - name: copy user pub key to local pub keys central storage  
+#   local_action: copy content="{{ copy_local_key }}" dest=/etc/ansible/"{{ create_user }}".pub
+
+- name: Disable password authentication for root
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: "^#?PermitRootLogin"
+    line: "PermitRootLogin prohibit-password"
+
+#- name: Update apt
+ # apt: update_cache=yes
+#- name: Install required system packages
+#  apt: name={{ sys_packages }} state=latest
+
+#- name: UFW - Allow SSH connections
+#  ufw:
+#    rule: allow
+#    name: OpenSSH
+
+#- name: UFW - Deny all other incoming traffic by default
+#  ufw:
+#    state: enabled
+#    policy: deny
+#    direction: incoming

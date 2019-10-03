@@ -1,0 +1,6 @@
+---
+- include: control.yml
+- include: nginxweb.yml
+- include: haproxy.yml
+- include: iptables.yml
+- include: sshonlylogin.yml

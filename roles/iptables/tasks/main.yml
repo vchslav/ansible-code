@@ -1,0 +1,20 @@
+---
+#- name: Clear input chain
+#  shell: iptables -F INPUT
+
+#- iptables_raw:
+#  name: open_ports
+#  rules: '-A INPUT -p tcp --dport {{ open_ports }} -j ACCEPT'
+
+#- name: change the input policy to drop
+#  shell: iptables -P INPUT DROP
+
+- name: open_ports
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    action: insert
+  with_items:
+    - "{{ ports }}"
