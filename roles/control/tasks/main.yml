@@ -4,4 +4,3 @@
   with_items:
     - curl
     - python-httplib2
-    - certbot

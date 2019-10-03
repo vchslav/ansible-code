@@ -27,7 +27,7 @@
   authorized_key:
     user: "{{ create_user }}"
     state: present
-    key: "{{ copy_local_key }}"
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
     #register: key
 
 # - name: debug
