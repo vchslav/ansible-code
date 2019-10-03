@@ -5,7 +5,8 @@
     user: "steve"
     state: present
     #key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
-    key: "{{ lookup('file', '/etc/ansible/ssh/{{ item }}.pub') }}"
+    # key: "{{ lookup('file', '/etc/ansible/ssh/{{ item }}.pub') }}"
+    key: "lookup('file', '/etc/ansible/ssh/steve.pub')"
   # with_items:
   #   - "{{ users }}"
   #   #register: key
