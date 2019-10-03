@@ -1,8 +1,21 @@
 ---
+- name: Make sure we have a 'steve' group
+  group:
+    name: "{{ group_name }}"
+    state: present
+
+- name: Allow 'steve' group to have passwordless sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: "^%steve"
+    line: "%steve ALL=(ALL) NOPASSWD: ALL"
+    validate: "/usr/sbin/visudo -cf %s"
+
 - name: "Create user accounts and add users to groups"
   user:
     name: "{{ item }}"
-    groups: "Steve"
+    groups: "steve"
   with_items: "{{ users }}"
 
 - name: "Add authorized keys"
