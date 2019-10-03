@@ -1,9 +1,11 @@
 ---
 - name: Set authorized key for remote user
   authorized_key:
-    user: "steve"
+    user: "{{ item }}"
     state: present
-    key: "{{ lookup('file', '/etc/ansible/ssh/steve.pub') }}"
+    key: "{{ lookup('file', '/etc/ansible/ssh/{{ item }}.pub') }}"
+    with_items:
+      - "{{ users }}"
 
 - name: Disable password authentication for root
   lineinfile:
