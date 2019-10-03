@@ -1,0 +1,24 @@
+---
+- name: "Create user accounts and add users to groups"
+  user:
+    name: "{{ item }}"
+    groups: "admin,www-data"
+  with_items: "{{ users }}"
+
+- name: "Add authorized keys"
+  authorized_key:
+    user: "{{ item }}"
+    key: "{{ lookup('file', '/etc/ansible/'+ item + '.key.pub') }}"
+  with_items: "{{ users }}"
+  register: key
+
+- name: debug
+  debug:
+      var: "{{ key }}"
+
+- name: "Allow admin users to sudo without a password"
+  lineinfile:
+    dest: "/etc/sudoers" # path: in version 2.3
+    state: "present"
+    regexp: "^%admin"
+    line: "%admin ALL=(ALL) NOPASSWD: ALL"
