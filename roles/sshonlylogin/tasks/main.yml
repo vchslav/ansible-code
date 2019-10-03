@@ -1,7 +1,7 @@
 ---
 - name: Set authorized key for remote user
   authorized_key:
-    user: "{{ item }}"
+    user: "ubuntu"
     state: present
     #key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
     key: "{{ lookup('file', '/etc/ansible/ssh/{{ item }}.pub') }}"
