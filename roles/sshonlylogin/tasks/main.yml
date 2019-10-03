@@ -1,0 +1,17 @@
+---
+- name: Set authorized key for remote user
+  authorized_key:
+    user: "{{ item }}"
+    state: present
+    #key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+    key: "{{ lookup('file', '/etc/ansible/ssh/{{ item }}.pub') }}"
+  with_items:
+    - "{{ users }}"
+    #register: key
+
+- name: Disable password authentication for root
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: "^#?PermitRootLogin"
+    line: "PermitRootLogin prohibit-password"

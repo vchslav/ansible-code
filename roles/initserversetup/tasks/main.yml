@@ -8,15 +8,17 @@
   lineinfile:
     path: /etc/sudoers
     state: present
-    regexp: "^%steve"
-    line: "%steve ALL=(ALL) NOPASSWD: ALL"
+    #regexp: "^%steve"
+    regexp: "^%{{ group_name }}"
+    line: "%{{ group_name }} ALL=(ALL) NOPASSWD: ALL"
     validate: "/usr/sbin/visudo -cf %s"
 
 - name: Create a new regular user with sudo privileges
   user:
     name: "{{ create_user }}"
     state: present
-    groups: steve
+    #groups: steve
+    groups: "{{ group_name }}"
     append: true
     create_home: true
     shell: /bin/bash
@@ -42,8 +44,8 @@
     regexp: "^#?PermitRootLogin"
     line: "PermitRootLogin prohibit-password"
 
-- name: Update apt
-  apt: update_cache=yes
+#- name: Update apt
+ # apt: update_cache=yes
 #- name: Install required system packages
 #  apt: name={{ sys_packages }} state=latest
 
