@@ -11,9 +11,9 @@
 
 - name: open_ports
   iptables:
-    chain: INPUT
-    destination_port: "{{ item }}"
     protocol: tcp
+    destination_port: "{{ item }}"
     jump: ACCEPT
+    action: insert
   with_items:
     - "{{ ports }}"
