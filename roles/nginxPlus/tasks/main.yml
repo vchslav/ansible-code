@@ -1,0 +1,19 @@
+---
+# tasks file for ngnixPlus
+- name: Copy crt and key files to the /etc/ssl/nginx/
+  file: src=nginx-repo.crt dest=/etc/ssl/nginx/
+ 
+- name: install ca-certificates dependency
+  shell: yum install ca-certificates
+ 
+- name: Download the nginx-plus-repo
+  shell: wget -P /etc/yum.repos.d https://cs.nginx.com/static/files/nginx-plus-amazon2.repo
+ 
+- name: Copy nginx-plus-repo to the /etc/ssl/nginx/
+  file: src=nginx-plus-amazon2.repo dest=/etc/yum.repos.d/
+  
+- name: install nginx-plus
+  yum: name=nginx-plus state=present update_cache=yes
+  
+- name: enable the nginx service start at boot
+  shell: systemctl enable nginx.service

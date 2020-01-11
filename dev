@@ -5,5 +5,8 @@ lb01
 app01
 app02
 
+[nginxplus]
+10.0.0.163
+
 [control]
 control ansible_connection=local
