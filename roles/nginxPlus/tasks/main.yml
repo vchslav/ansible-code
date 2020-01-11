@@ -3,7 +3,7 @@
 
 - name: Check /etc/ssl/nginx directory.
   stat:
-    path: /project/devops/jboss
+    path: /etc/ssl/nginx
   register: my_folder
 
 - name: "echo if directory already existed"
