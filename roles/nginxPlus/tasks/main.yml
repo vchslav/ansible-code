@@ -1,19 +1,70 @@
 ---
 # tasks file for ngnixPlus
-- name: Copy crt and key files to the /etc/ssl/nginx/
-  file: src=nginx-repo.crt dest=/etc/ssl/nginx/
- 
-- name: install ca-certificates dependency
-  shell: yum install ca-certificates
- 
-- name: Download the nginx-plus-repo
-  shell: wget -P /etc/yum.repos.d https://cs.nginx.com/static/files/nginx-plus-amazon2.repo
- 
+
+- name: Check /etc/ssl/nginx directory.
+  stat:
+    path: /project/devops/jboss
+  register: my_folder
+
+- name: "echo if directory already existed"
+  debug:
+    msg: "the /etc/ssl/nginx directory is already existed"
+  when: my_folder.stat.exists
+
+#- name: mkdir /etc/ssl/nginx
+#  shell: mkdir /etc/ssl/nginx
+  #when: not p.stat.exists
+- name: "Create /etc/ssl/nginx directory if not exists"
+  file:
+    path: /etc/ssl/nginx
+    state: directory
+  when: my_folder.stat.exists == false
+
+#- name: Copy crt and key files to the /etc/ssl/nginx/
+#  file: src=~/ansible-code/roles/nginxPlus/files/cert/nginx-repo.crt dest=/etc/ssl/nginx/
+
+#- name: Copy crt and key files to the /etc/ssl/nginx/
+#  file: src={{item}} dest=/etc/ssl/nginx/
 - name: Copy nginx-plus-repo to the /etc/ssl/nginx/
-  file: src=nginx-plus-amazon2.repo dest=/etc/yum.repos.d/
-  
+  copy:
+    src: "{{item}}"
+    dest: /etc/ssl/nginx/
+    force: no
+  with_items:
+    - ~/ansible-code/roles/nginxPlus/files/cert/nginx-repo.crt
+    - ~/ansible-code/roles/nginxPlus/files/cert/nginx-repo.key
+
+#- name: install ca-certificates dependency
+#  shell: install ca-certificates /etc/ssl/nginx/
+- name: install ca-certificates dependency
+  yum: name=ca-certificates state=present
+
+#- name: Download the nginx-plus-repo
+#  shell: wget -P /etc/yum.repos.d https://cs.nginx.com/static/files/nginx-plus-amazon2.repo
+- name: Download the nginx-plus-repo
+  get_url:
+    url: https://cs.nginx.com/static/files/nginx-plus-amazon2.repo
+    dest: /etc/ssl/nginx/
+    force: no
+
+- name: check if nginx-plus-amazon2.repo exists
+  stat:
+    path: /etc/ssl/nginx/nginx-plus-amazon2.repo
+  register: repo_exists
+
+#- name: Copy nginx-plus-repo to the /etc/ssl/nginx/
+#  file: src=nginx-plus-amazon2.repo dest=/etc/yum.repos.d/
+  #copy: src=nginx-plus-amazon2.repo dest=/etc/yum.repos.d/ force=no
+  #when: repo_exists.stat.exists == False
+- name: Copy nginx-plus-repo to the /etc/ssl/nginx/
+  copy:
+    src: /etc/ssl/nginx/nginx-plus-amazon2.repo
+    dest: /etc/yum.repos.d/
+    remote_src: yes
+    force: no
+
 - name: install nginx-plus
   yum: name=nginx-plus state=present update_cache=yes
-  
+
 - name: enable the nginx service start at boot
   shell: systemctl enable nginx.service
